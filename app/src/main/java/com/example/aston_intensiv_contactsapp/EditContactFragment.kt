@@ -13,7 +13,8 @@ class EditContactFragment : Fragment() {
     private lateinit var binding: FragmentEditContactBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditContactBinding.inflate(layoutInflater)
@@ -33,7 +34,7 @@ class EditContactFragment : Fragment() {
             ) {
                 val newName = binding.editTextName.text.toString()
                 val newSurname = binding.editTextSurname.text.toString()
-                val newPhoneNumber = binding.editTextPhoneNumber.text.toString().toInt()
+                val newPhoneNumber = binding.editTextPhoneNumber.text.toString()
 
                 ContactList.editContact(contactId!!, newName, newSurname, newPhoneNumber, false, false)
 

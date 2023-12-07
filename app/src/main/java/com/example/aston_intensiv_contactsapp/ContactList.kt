@@ -4,8 +4,10 @@ import kotlin.random.Random
 
 object ContactList {
     private var listContacts = (1..10).map {
-        ContactItem(it, "Name$it", "LastName$it", Random.nextInt(), false, false)
+        ContactItem(it, "Name$it", "LastName$it", Random.nextInt().toString(), false, false)
     }
+
+    var nextContactId = 1
 
     fun getContacts(): List<ContactItem> {
         return listContacts
@@ -21,16 +23,11 @@ object ContactList {
         }
     }
 
-    fun getNextId(): Int {
-        val maxContactId = listContacts.maxBy { it.id }
-        return maxContactId.id.plus(1)
-    }
-
     fun addContact(
         id: Int,
         name: String,
         surname: String,
-        phoneNumber: Int,
+        phoneNumber: String,
         isCheckBoxVisible: Boolean,
         isChecked: Boolean
     ) {
@@ -50,7 +47,7 @@ object ContactList {
         id: Int,
         name: String,
         surname: String,
-        phoneNumber: Int,
+        phoneNumber: String,
         isCheckBoxVisible: Boolean,
         isChecked: Boolean
     ) {
@@ -66,7 +63,7 @@ object ContactList {
             } else {
                 it
             }
-        }.toMutableList()
+        }
     }
     fun deleteSelectedContacts() {
         val newList = listContacts.toMutableList()
@@ -74,11 +71,8 @@ object ContactList {
         listContacts = newList
     }
 
-    fun setCheckBoxVisible(isVisible: Boolean){
-        listContacts = listContacts.map { it.copy(isCheckBoxVisible = true) }
+    fun setCheckBoxVisibility(isVisible: Boolean){
+        listContacts = listContacts.map { it.copy(isCheckBoxVisible = isVisible) }
     }
 
-    fun setCheckBoxInvisible(isVisible: Boolean){
-        listContacts = listContacts.map { it.copy(isCheckBoxVisible = false) }
-    }
 }

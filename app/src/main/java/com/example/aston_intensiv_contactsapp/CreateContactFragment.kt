@@ -13,7 +13,8 @@ class CreateContactFragment : Fragment() {
     private lateinit var binding: FragmentCreateContactBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreateContactBinding.inflate(layoutInflater)
@@ -30,10 +31,10 @@ class CreateContactFragment : Fragment() {
                 binding.editTextPhoneNumber.text.toString().isNotEmpty()
             ) {
                 ContactList.addContact(
-                    ContactList.getNextId(),
+                    ContactList.nextContactId++,
                     binding.editTextName.text.toString(),
                     binding.editTextSurname.text.toString(),
-                    binding.editTextPhoneNumber.text.toString().toInt(),
+                    binding.editTextPhoneNumber.text.toString(),
                     false,
                     false
                 )

@@ -10,10 +10,11 @@ import com.example.aston_intensiv_contactsapp.databinding.FragmentContactsBindin
 class ContactsFragment : Fragment(), ContactItemClickListener {
 
     private lateinit var binding: FragmentContactsBinding
-    private lateinit var contactsAdapter: ContactsAdapter
+    private var contactsAdapter: ContactsAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentContactsBinding.inflate(layoutInflater)
@@ -24,11 +25,13 @@ class ContactsFragment : Fragment(), ContactItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
 
-        contactsAdapter = ContactsAdapter(this, {contactItem, isChecked ->
+        contactsAdapter = ContactsAdapter(onContactItemClick = { it ->
+            onContactItemClick(it)
+        }, {contactItem, isChecked ->
             ContactList.setChecked(contactItem, isChecked)
-            contactsAdapter.submitList(ContactList.getContacts())
+            contactsAdapter?.submitList(ContactList.getContacts())
         })
-        contactsAdapter.submitList(ContactList.getContacts())
+        contactsAdapter?.submitList(ContactList.getContacts())
         binding.recyclerViewContactList.adapter = contactsAdapter
 
 
@@ -45,21 +48,21 @@ class ContactsFragment : Fragment(), ContactItemClickListener {
             binding.buttonCancel.visibility = View.VISIBLE
             binding.buttonAddContact.visibility = View.INVISIBLE
             binding.buttonDelete.visibility = View.INVISIBLE
-            ContactList.setCheckBoxVisible(true)
-            contactsAdapter.submitList(ContactList.getContacts())
+            ContactList.setCheckBoxVisibility(true)
+            contactsAdapter?.submitList(ContactList.getContacts())
         }
 
         binding.buttonDeleteItem.setOnClickListener {
             ContactList.deleteSelectedContacts()
-            contactsAdapter.submitList(ContactList.getContacts())
+            contactsAdapter?.submitList(ContactList.getContacts())
         }
         binding.buttonCancel.setOnClickListener {
             binding.buttonDeleteItem.visibility = View.INVISIBLE
             binding.buttonCancel.visibility = View.INVISIBLE
             binding.buttonAddContact.visibility = View.VISIBLE
             binding.buttonDelete.visibility = View.VISIBLE
-            ContactList.setCheckBoxInvisible(true)
-            contactsAdapter.submitList(ContactList.getContacts())
+            ContactList.setCheckBoxVisibility(false)
+            contactsAdapter?.submitList(ContactList.getContacts())
 
         }
     }

@@ -1,12 +1,15 @@
 package com.example.aston_intensiv_contactsapp
 
 import android.view.LayoutInflater
+import androidx.recyclerview.widget.ListAdapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-class ContactsAdapter(private val listener: ContactItemClickListener, private val onCheckChange:(ContactItem, Boolean) -> Unit )
-    : androidx.recyclerview.widget.ListAdapter<ContactItem,ContactsViewHolder>(ContactsDiffCallback()) {
+class ContactsAdapter(
+    private val onContactItemClick: (ContactItem) -> Unit,
+    private val onCheckChange:(ContactItem, Boolean) -> Unit
+): ListAdapter<ContactItem,ContactsViewHolder>(ContactsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_contact, parent, false)
@@ -19,10 +22,10 @@ class ContactsAdapter(private val listener: ContactItemClickListener, private va
         holder.itemView.findViewById<TextView>(R.id.textViewId).text = contact.id.toString()
         holder.itemView.findViewById<TextView>(R.id.textViewName).text = contact.name
         holder.itemView.findViewById<TextView>(R.id.textViewSurename).text = contact.surname
-        holder.itemView.findViewById<TextView>(R.id.textViePhoneNumber).text = contact.phoneNumber.toString()
+        holder.itemView.findViewById<TextView>(R.id.textViePhoneNumber).text = contact.phoneNumber
 
         holder.itemView.setOnClickListener {
-            listener.onContactItemClick(contact)
+            onContactItemClick(contact)
         }
         holder.checkbox.setOnCheckedChangeListener(null)
         holder.checkbox.isChecked = contact.isChecked
